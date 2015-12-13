@@ -2,7 +2,7 @@ import unittest
 
 class PNGs(unittest.TestCase):
     def __init__(self, methodName, page_i=0, page_j=0):
-        testName = "{0}(i={1},j={2})".format(methodName,page_i,page_j)
+        testName = "{0}(page_i={1},page_j={2})".format(methodName,page_i,page_j)
         method = getattr(self,methodName) 
         setattr(self, testName, method)
         super(PNGs, self).__init__(testName)

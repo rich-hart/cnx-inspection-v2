@@ -8,10 +8,6 @@ load_tests = None
 def main(argv=None):
     global load_tests
 
-#    from utils import load_png_tests
-#    load_tests = load_png_tests
-
-
     parser = argparse.ArgumentParser()
 
     parser.add_argument('--include', action='append', default=['DefaultTest'])
@@ -23,9 +19,9 @@ def main(argv=None):
     settings = vars(args)
 
     load_tests= test_generator(settings)
-#    settings['test_cases'] = set(settings['include'])-set(settings['exclude'])
- 
-    unittest.main(verbosity=2)
+    with open('output.log','w') as f:
+        test_output = unittest.TextTestRunner(f,verbosity=3)
+        unittest.main(testRunner=test_output)
 
 if __name__ == "__main__":
     main() 
