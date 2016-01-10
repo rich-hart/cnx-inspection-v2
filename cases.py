@@ -4,16 +4,14 @@ class DefaultTest(frameworks.PNGs):
     def equality(self):
         pass
 
-class MyTest_1(frameworks.PNGs):
+class MyTest1(frameworks.PNGs):
+    def histogram_cmp_corr(self):
+        pass
+
     def equality(self):
         pass
 
-    def hist_corr_cmp(self):
+class MyTest2(frameworks.PNGs):
+    def histogram_cmp_bhatta(self):
         pass
-
-class MyTest_2(frameworks.PNGs):
-    def hist_bhatta_cmp(self):
-        pass
-
-
 

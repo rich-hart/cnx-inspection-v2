@@ -1,4 +1,5 @@
 import unittest
+import logging
 
 class PNGs(unittest.TestCase):
     def __init__(self, methodName, page_i=0, page_j=0):
@@ -10,8 +11,20 @@ class PNGs(unittest.TestCase):
         self.page_j = page_j
         self.methodName = methodName
 
-    def runTest(self):
-        pass  # Test that depends on param 1 and 2.
+    @classmethod
+    def setUpClass(cls):
+        print cls._settings
+
+    def setUp(self):
+        pass
+#        if self.page_i==0 or self.page_j ==0:
+#            raise unittest.SkipTest("Zero pages are not tested")
 
 
+    def tearDown(self):
+        pass
+
+    @classmethod
+    def tearDownClass(self):
+        pass
 
