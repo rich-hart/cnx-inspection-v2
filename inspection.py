@@ -27,9 +27,9 @@ def main(argv=None):
     
     load_tests = test_generator(settings)
 
-    logging.basicConfig(filename=settings['results'])
+    logging.basicConfig(filename=settings['results'],level=logging.INFO,filemode='w+')
 
-    with open(settings['output'],'w') as f:
+    with open(settings['output'],'w+') as f:
         test_output = unittest.TextTestRunner(f,verbosity=3)
         unittest.main(testRunner=test_output,argv=['inspection.py'])
 
