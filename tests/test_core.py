@@ -34,6 +34,20 @@ class LOADDB(unittest.TestCase):
                  cur.execute("DROP TABLE test_a_png")
                  cur.execute("DROP TABLE test_b_png")
 
+RESULT_LOG = os.path.join(os.getcwd(),'tests/data/results.log')
+class Utils(unittest.TestCase):
+     def test_load_result_log(self):
+         from utils import load_result_log
+         import ipdb; ipdb.set_trace()
+         results_list = load_result_log(RESULT_LOG)
+         for result in results_list:
+             self.assertIsInstance(result,dict)
+             keys_list=[key for key, value in result.iteritems()] 
+             self.assertIn('case',keys_list)
+             self.assertIn('page_i',keys_list)
+             self.assertIn('page_j',keys_list)
+             self.assertIn('test',keys_list)
+             self.assertIn('result',keys_list)
 if __name__ == '__main__':
     unittest.main()
 

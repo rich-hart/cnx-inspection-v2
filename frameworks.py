@@ -20,7 +20,8 @@ class PNGs(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         cls._connection = psycopg2.connect(database=cls._settings['database'])
-        cls._logger = logging.getLogger(cls.__name__)
+        cls._casename = cls.__name__
+        cls._logger = logging.getLogger(cls._casename)
     def setUp(self):
         self.class_vars = None
         self.class_vars = self.__dict__
@@ -32,10 +33,11 @@ class PNGs(unittest.TestCase):
             data = numpy.asarray(cur.fetchone()[0])
             self.image_j = cv2.imdecode(data,cv.CV_LOAD_IMAGE_COLOR)
 
-
+# FIXME: Have way for tearDown method, obtain any save value from test
     def tearDown(self):
         sys_info = sys.exc_info()
         result = None
+        test_info = {}
         if sys_info == (None,None,None):
             result = "pass"
         elif isinstance(sys_info[1],exceptions.AssertionError):
@@ -44,7 +46,13 @@ class PNGs(unittest.TestCase):
             result = "skip"
         else:
             result = "error"
-        self._logger.info(result)
+
+        test_info['result'] = result
+        test_info['page_i'] = self.page_i
+        test_info['page_j'] = self.page_j
+        test_info['test'] = self.methodName
+        test_info['case'] = self._casename
+        self._logger.info(str(test_info))
 
     @classmethod
     def tearDownClass(self):

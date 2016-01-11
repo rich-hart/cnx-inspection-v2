@@ -27,7 +27,7 @@ def main(argv=None):
     
     load_tests = test_generator(settings)
 
-    logging.basicConfig(filename=settings['results'],level=logging.INFO,filemode='w+')
+    logging.basicConfig(filename=settings['results'],level=logging.INFO,filemode='w+', format='')
 
     with open(settings['output'],'w+') as f:
         test_output = unittest.TextTestRunner(f,verbosity=3)

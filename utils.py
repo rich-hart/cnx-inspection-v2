@@ -32,5 +32,12 @@ def test_generator(settings):
 
     return load_tests
 
+def load_result_log(filepath):
+    results = []
+    with open(filepath,'r') as f:
+        for line in f:
+            info = eval(line)
+            results.append(info)
+    return results
 
 
