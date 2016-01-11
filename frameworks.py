@@ -1,6 +1,9 @@
 import unittest
 import logging
-
+import psycopg2
+import cv2
+import cv
+import numpy
 class PNGs(unittest.TestCase):
     def __init__(self, methodName, page_i=0, page_j=0):
         testName = "{0}(page_i={1},page_j={2})".format(methodName,page_i,page_j)
@@ -13,12 +16,16 @@ class PNGs(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
-        print cls._settings
+        cls._connection = psycopg2.connect(database=cls._settings['database'])
 
     def setUp(self):
-        pass
-#        if self.page_i==0 or self.page_j ==0:
-#            raise unittest.SkipTest("Zero pages are not tested")
+        with self._connection.cursor() as cur:
+            cur.execute("SELECT Data FROM png_a WHERE Page={0}".format(self.page_i))
+            data = numpy.asarray(cur.fetchone()[0])
+            self.image_i = cv2.imdecode(data,cv.CV_LOAD_IMAGE_COLOR)
+            cur.execute("SELECT Data FROM png_b WHERE Page={0}".format(self.page_j))
+            data = numpy.asarray(cur.fetchone()[0])
+            self.image_j = cv2.imdecode(data,cv.CV_LOAD_IMAGE_COLOR)
 
 
     def tearDown(self):
