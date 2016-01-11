@@ -33,11 +33,4 @@ def test_generator(settings):
     return load_tests
 
 
-"""
 
-pdf_im = pyPdf.PdfFileReader(file('multi_page.pdf', "rb"))
-npage = pdf_im.getNumPages()
-for p in npage:
-    im = PythonMagick.Image('multi_page.pdf['+ str(p) +']')
-    im.write('file_out-' + str(p)+ '.png')
-"""
