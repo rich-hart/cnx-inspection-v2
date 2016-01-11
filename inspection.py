@@ -13,7 +13,7 @@ def main(argv=None):
     parser = argparse.ArgumentParser()
 
     # FIXME: use nargs='+' for lists
-    parser.add_argument('--include', action='append', default=['DefaultTest','MyTest1'])
+    parser.add_argument('--include', action='append', default=['DefaultTest'])
     parser.add_argument('--exclude', action='append', default=None)
     parser.add_argument('--output', type=str, default='output.log')
     parser.add_argument('--results', type=str, default='results.log')
@@ -31,7 +31,7 @@ def main(argv=None):
 
     with open(settings['output'],'w') as f:
         test_output = unittest.TextTestRunner(f,verbosity=3)
-        unittest.main(testRunner=test_output)
+        unittest.main(testRunner=test_output,argv=['inspection.py'])
 
 if __name__ == "__main__":
     main() 
