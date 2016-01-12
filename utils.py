@@ -3,6 +3,8 @@ from cases import DefaultTest
 from importlib import import_module
 import psycopg2
 import inspect
+import numpy
+
 def test_generator(settings):
     test_cases = unittest.TestSuite()
     cases = import_module(settings['cases'])
@@ -40,4 +42,36 @@ def load_result_log(filepath):
             results.append(info)
     return results
 
+def generate_info_matrix(info_list):
+    test_cases = set([(info['test'],info['case']) for info in info_list])
+    pages_a = set([info['page_i'] for info in info_list])
+    pages_b = set([info['page_i'] for info in info_list])
 
+    test_cases = list(test_cases)
+    pages_a = list(pages_a)
+    pages_b = list(pages_b)
+
+
+    pages_a_offset = min(pages_a)
+    pages_b_offset = min(pages_b)
+
+    info_matrix = numpy.chararray((len(test_cases),
+                                  len(pages_a),
+                                  len(pages_b)))
+
+
+    for info in info_list:
+        x = test_cases.index((info['test'],info['case']))
+        y = info['page_i']-pages_a_offset
+        z = info['page_j']-pages_b_offset
+        value = info['result']
+        info_matrix[x,y,z] = value
+
+    return info_matrix
+
+    def generate_comp_matrix(info_matrix,skipped_results=True):
+        pass
+
+
+
+    

@@ -29,7 +29,7 @@ class MyTest1(frameworks.PNGs):
 
 class MyTest2(frameworks.PNGs):
     def gray_histogram_cmp_bhatta(self):
-        self.threshhold = .9
+        threshold = .9
 
         gray_i = cv2.cvtColor(self.image_i,cv2.COLOR_BGR2GRAY)
         hist_i = cv2.calcHist([gray_i],[0],None,[256],[0,256])
@@ -37,6 +37,6 @@ class MyTest2(frameworks.PNGs):
         gray_j = cv2.cvtColor(self.image_j,cv2.COLOR_BGR2GRAY)
         hist_j = cv2.calcHist([gray_j],[0],None,[256],[0,256])
 
-        self.measure = cv2.compareHist(hist_i, hist_j, cv.CV_COMP_BHATTACHARYYA) 
-        self.assertGreater(self.measure,self.threshhold)
+        measure = cv2.compareHist(hist_i, hist_j, cv.CV_COMP_BHATTACHARYYA) 
+        self.assertGreater(measure,threshold)
 
