@@ -8,7 +8,7 @@ import sys
 import exceptions
 
 class PNGs(unittest.TestCase):
-    def __init__(self, methodName, page_i=0, page_j=0):
+    def __init__(self, methodName, page_i=1, page_j=1):
         testName = "{0}(page_i={1},page_j={2})".format(methodName,page_i,page_j)
         method = getattr(self,methodName) 
         setattr(self, testName, method)
@@ -23,6 +23,9 @@ class PNGs(unittest.TestCase):
         cls._casename = cls.__name__
         cls._logger = logging.getLogger(cls._casename)
     def setUp(self):
+        if self.page_i==0 or self.page_j ==0:
+            raise unittest.SkipTest("zero page should be null")
+
         self.class_vars = None
         self.class_vars = self.__dict__
         with self._connection.cursor() as cur:

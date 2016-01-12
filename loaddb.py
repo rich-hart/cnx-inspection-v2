@@ -7,6 +7,8 @@ import contextlib
 import os
 import shutil
 
+FIRST_PAGE_OFFSET = 1
+
 @contextlib.contextmanager
 def make_temp_directory():
     temp_dir = tempfile.mkdtemp()
@@ -57,7 +59,7 @@ def main(argv=None):
                     with open(png_path,'r') as f:
                         img = f.read()
                         binary = psycopg2.Binary(img)
-                        cur.execute("INSERT INTO png_b (Page, Data) VALUES (%s, %s)", (str(i),binary) )
+                        cur.execute("INSERT INTO png_b (Page, Data) VALUES (%s, %s)", (str(i+FIRST_PAGE_OFFSET),binary) )
                     os.remove(png_path)
 
 if __name__ == "__main__":

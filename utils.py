@@ -11,10 +11,12 @@ def test_generator(settings):
 
     with psycopg2.connect(database=settings['database']) as con:
         with con.cursor() as cur:
-            cur.execute("SELECT COUNT(Page) FROM png_a")
-            total_M= cur.fetchone()[0]
-            cur.execute("SELECT COUNT(Page) FROM png_b")
-            total_N= cur.fetchone()[0] 
+            cur.execute("SELECT Page FROM png_a")
+            pages_a = cur.fetchall()
+            pages_a = [ page[0] for page in pages_a]
+            cur.execute("SELECT Page FROM png_b")
+            pages_b = cur.fetchall() 
+            pages_b = [ page[0] for page in pages_b]
     for case_name in settings['include']:
         TestClass = cases.__getattribute__(case_name)
         setattr(TestClass,'_settings',settings)
@@ -25,8 +27,8 @@ def test_generator(settings):
         test_method_list = list(set(method_list)-set(super_method_list))
         test_name_list = [ method[0] for method in test_method_list if method[0]!='tearDownClass' and method[0]!='setUpClass']
         for test_name in test_name_list:
-            for pi in range(0,total_M):
-                for pj in range(0,total_N):
+            for pi in pages_a:
+                for pj in pages_b:
                     test_cases.addTest(TestClass(test_name, pi, pj))
     def load_tests(loader, tests, pattern):
     # FIXME: declare me as a decorator
@@ -45,32 +47,64 @@ def load_result_log(filepath):
 def generate_info_matrix(info_list):
     test_cases = set([(info['test'],info['case']) for info in info_list])
     pages_a = set([info['page_i'] for info in info_list])
-    pages_b = set([info['page_i'] for info in info_list])
+    pages_b = set([info['page_j'] for info in info_list])
 
     test_cases = list(test_cases)
     pages_a = list(pages_a)
     pages_b = list(pages_b)
 
-
-    pages_a_offset = min(pages_a)
-    pages_b_offset = min(pages_b)
-
     info_matrix = numpy.chararray((len(test_cases),
-                                  len(pages_a),
-                                  len(pages_b)))
+                                  len(pages_a)+1,
+                                  len(pages_b)+1))
 
+    info_matrix[:] = 'f'
 
     for info in info_list:
         x = test_cases.index((info['test'],info['case']))
-        y = info['page_i']-pages_a_offset
-        z = info['page_j']-pages_b_offset
+        y = info['page_i']
+        z = info['page_j']
+
         value = info['result']
         info_matrix[x,y,z] = value
 
     return info_matrix
 
-    def generate_comp_matrix(info_matrix,skipped_results=True):
-        pass
+def generate_comp_matrix(info_matrix,operation,skipped_results=True):
+
+
+
+    value_matrix = numpy.zeros(info_matrix.shape, dtype=bool)
+
+    (A,B,C) = info_matrix.shape
+
+    for a in range(0,A):
+        for b in range(0,B):
+            for c in range(0,C):
+                info = info_matrix[a,b,c]
+                if info == 'p':
+                    value = True
+                elif info == 'f':
+                    value = False
+                elif info == 'e':
+                    value = False
+                elif info == 's':
+                    value = skipped_results
+                else:
+                    value = False
+                value_matrix[a,b,c]=value
+
+    comp_matrix = numpy.zeros((B,C), dtype=bool)
+    if not isinstance(operation,str):
+        raise TypeError
+    if operation.lower() != 'all':
+        numpy.all(value_matrix,axis=0,out=comp_matrix)
+    elif operation.lower() != 'any':
+        numpy.any(value_matrix,axis=0,out=comp_matrix)
+    else:
+        raise ValueError("operation must be 'all' or 'any'")
+
+    return comp_matrix
+
 
 
 
