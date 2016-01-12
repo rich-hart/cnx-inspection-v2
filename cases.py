@@ -3,10 +3,13 @@ import cv2
 import cv
 import numpy
 import unittest
+
+
 class DefaultTest(frameworks.PNGs):
     def equality(self):
         equal = numpy.array_equal(self.image_i, self.image_j)
         self.assertTrue(equal)
+
 
 class MyTest1(frameworks.PNGs):
     def gray_histogram_cmp_corr(self):
@@ -26,6 +29,7 @@ class MyTest1(frameworks.PNGs):
             raise unittest.SkipTest("Don't run this test on the first pages")
         equal = numpy.array_equal(self.image_i, self.image_j)
         self.assertTrue(equal)
+
 
 class MyTest2(frameworks.PNGs):
     def gray_histogram_cmp_bhatta(self):
