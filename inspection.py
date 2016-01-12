@@ -20,7 +20,7 @@ def main(argv=None):
     parser.add_argument('--database', type=str, default='png-testing')
     parser.add_argument('--user', type=str, default='qa')
     parser.add_argument('--cases', type=str, default='cases')
-    # any / all
+    # FIXME: add any / all argument
     args = parser.parse_args(argv)
     
     settings = vars(args)

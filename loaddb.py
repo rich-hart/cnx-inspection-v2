@@ -13,6 +13,8 @@ def make_temp_directory():
     yield temp_dir
     shutil.rmtree(temp_dir)
 
+
+# FIXME:  page numbering should start at 1 not zero
 def main(argv=None):
     global load_tests
 
