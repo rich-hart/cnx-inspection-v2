@@ -78,6 +78,7 @@ class Utils(unittest.TestCase):
         length_matrix = LCSLength(comp_matrix)
         (M,N) = length_matrix.shape
         print backtrack(length_matrix,comp_matrix,M-1,N-1)
+
     def test_printDiff(self):
         results_list = load_result_log(RESULT_LOG)
         info_matrix = generate_info_matrix(results_list)
