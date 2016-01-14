@@ -104,4 +104,27 @@ def generate_comp_matrix(info_matrix,operation,skipped_results=True):
 
     return comp_matrix
 
- 
+def LCSLength(comp_matrix):
+    (M,N) = comp_matrix.shape
+    length_matrix = numpy.zeros((M,N), dtype=int)
+
+    for i in range(1,M):
+        for j in range(1,N):
+            if comp_matrix[i,j]:
+                length_matrix[i,j] = length_matrix[i-1,j-1] + 1
+            else:
+                length_matrix[i,j] = max(length_matrix[i,j-1],length_matrix[i-1,j])
+    return length_matrix
+
+def backtrack(length_matrix,comp_matrix,i,j):
+    if i == 0 or j == 0:
+        return []
+    elif comp_matrix[i,j]:
+        return backtrack(length_matrix,comp_matrix,i-1,j-1)+[(i,j-1)]
+    else:
+        if length_matrix[i,j-1]>length_matrix[i-1,j]:
+            return backtrack(length_matrix,comp_matrix,i,j-1)
+        else:
+            return backtrack(length_matrix,comp_matrix,i-1,j)
+
+
