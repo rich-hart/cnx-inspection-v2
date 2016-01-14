@@ -71,11 +71,11 @@ def generate_info_matrix(info_list):
 
 def generate_comp_matrix(info_matrix,operation,skipped_results=True):
 
+    (A,B,C) = info_matrix.shape
 
+    comp_matrix = numpy.zeros((B,C), dtype=bool)
 
     value_matrix = numpy.zeros(info_matrix.shape, dtype=bool)
-
-    (A,B,C) = info_matrix.shape
 
     for a in range(0,A):
         for b in range(0,B):
@@ -93,19 +93,15 @@ def generate_comp_matrix(info_matrix,operation,skipped_results=True):
                     value = False
                 value_matrix[a,b,c]=value
 
-    comp_matrix = numpy.zeros((B,C), dtype=bool)
     if not isinstance(operation,str):
         raise TypeError
-    if operation.lower() != 'all':
+    if operation.lower() == 'all':
         numpy.all(value_matrix,axis=0,out=comp_matrix)
-    elif operation.lower() != 'any':
+    elif operation.lower() == 'any':
         numpy.any(value_matrix,axis=0,out=comp_matrix)
     else:
         raise ValueError("operation must be 'all' or 'any'")
 
     return comp_matrix
 
-
-
-
-    
+ 

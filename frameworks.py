@@ -24,7 +24,7 @@ class PNGs(unittest.TestCase):
         cls._logger = logging.getLogger(cls._casename)
     def setUp(self):
         if self.page_i==0 or self.page_j ==0:
-            raise unittest.SkipTest("zero page should be null")
+            raise unittest.SkipTest("zero pages should be null")
 
         self.class_vars = None
         self.class_vars = self.__dict__

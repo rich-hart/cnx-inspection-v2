@@ -63,6 +63,7 @@ class Utils(unittest.TestCase):
         self.assertEqual(counter,total_indexs)
 
     def test_generate_comp_matrix(self):
+        import ipdb; ipdb.set_trace()
         results_list = load_result_log(RESULT_LOG)
         info_matrix = generate_info_matrix(results_list)
         comp_matrix = generate_comp_matrix(info_matrix,'ALL')
