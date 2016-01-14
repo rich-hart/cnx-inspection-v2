@@ -36,6 +36,12 @@ def test_generator(settings):
 
     return load_tests
 
+
+# FIXME: These utility functions will need to be corrected base on the nature of 
+# translating the lcs problem from strings to images
+
+
+
 def load_result_log(filepath):
     results = []
     with open(filepath,'r') as f:
@@ -120,11 +126,24 @@ def backtrack(length_matrix,comp_matrix,i,j):
     if i == 0 or j == 0:
         return []
     elif comp_matrix[i,j]:
-        return backtrack(length_matrix,comp_matrix,i-1,j-1)+[(i,j-1)]
+        return backtrack(length_matrix,comp_matrix,i-1,j-1)+[i]
     else:
         if length_matrix[i,j-1]>length_matrix[i-1,j]:
             return backtrack(length_matrix,comp_matrix,i,j-1)
         else:
             return backtrack(length_matrix,comp_matrix,i-1,j)
 
+
+def printDiff(length_matrix,comp_matrix,i,j):
+    if i > 0 and j > 0 and comp_matrix[i,j]:
+        printDiff(length_matrix,comp_matrix,i-1,j-1)
+        print("  " + str(i))
+    elif j > 0 and (i == 0 or length_matrix[i,j-1] >= length_matrix[i-1,j]):
+        printDiff(length_matrix,comp_matrix,i, j-1)
+        print("+ " + str(j))
+    elif i > 0 and (j == 0 or length_matrix[i,j-1] < length_matrix[i-1,j]):
+        printDiff(length_matrix,comp_matrix, i-1,j)
+        print("- " + str(i))
+    else:
+        print("")
 

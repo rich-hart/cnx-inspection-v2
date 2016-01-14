@@ -12,6 +12,7 @@ from utils import generate_info_matrix
 from utils import generate_comp_matrix
 from utils import LCSLength
 from utils import backtrack
+from utils import printDiff
 import numpy
 DATABASE='png-testing'
 USER='qa'
@@ -77,6 +78,14 @@ class Utils(unittest.TestCase):
         length_matrix = LCSLength(comp_matrix)
         (M,N) = length_matrix.shape
         print backtrack(length_matrix,comp_matrix,M-1,N-1)
+    def test_printDiff(self):
+        results_list = load_result_log(RESULT_LOG)
+        info_matrix = generate_info_matrix(results_list)
+        comp_matrix = generate_comp_matrix(info_matrix,'ANY')
+        length_matrix = LCSLength(comp_matrix)
+        (M,N) = length_matrix.shape
+        print printDiff(length_matrix,comp_matrix,M-1,N-1)
+
 if __name__ == '__main__':
     unittest.main()
 
