@@ -153,5 +153,6 @@ def lcs_images(results_file_path,require='ANY'):
     info_matrix = generate_info_matrix(results_list)
     comp_matrix = generate_comp_matrix(info_matrix,require)
     length_matrix = LCSLength(comp_matrix)
+    (M,N) = length_matrix.shape
     lcs = backtrack(length_matrix,comp_matrix,M-1,N-1)
-    return lsc
+    return lcs

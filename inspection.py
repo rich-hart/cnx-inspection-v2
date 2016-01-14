@@ -1,13 +1,20 @@
 import unittest
 import argparse
 import logging
+from multiprocessing import Process
 
 from utils import test_generator, lcs_images
 
 load_tests = None
 
-def main(argv=None):
+def run(settings):
     global load_tests
+    load_tests = test_generator(settings)
+    with open(settings['output'],'w+') as f:
+        test_output = unittest.TextTestRunner(f,verbosity=3)
+        unittest.main(testRunner=test_output,argv=['inspection.py'])
+
+def main(argv=None):
 
     parser = argparse.ArgumentParser()
 
@@ -25,18 +32,18 @@ def main(argv=None):
     
     settings = vars(args)
     
-    load_tests = test_generator(settings)
-
     logging.basicConfig(filename=settings['results'],level=logging.INFO,filemode='w+', format='')
 
     # FIXME: Will need the multiprocessing library so unittests can run with 
     # other tasks
 
-    with open(settings['output'],'w+') as f:
-        test_output = unittest.TextTestRunner(f,verbosity=3)
-        unittest.main(testRunner=test_output,argv=['inspection.py'])
-#    with open("lsc.txt",'w+') as f:
-#        f.write(str(lcs_images(settings['results'])))
+    p = Process(target=run,args=(settings,))
+
+    p.start()
+    p.join()
+
+
+    print lcs_images(settings['results'])
 
 if __name__ == "__main__":
     main() 

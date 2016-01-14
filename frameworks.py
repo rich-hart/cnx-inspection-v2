@@ -7,6 +7,8 @@ import numpy
 import sys
 import exceptions
 
+# NOTE: consider loading all images into memory depending on system resources
+
 class PNGs(unittest.TestCase):
     def __init__(self, methodName, page_i=1, page_j=1):
         testName = "{0}(page_i={1},page_j={2})".format(methodName,page_i,page_j)
