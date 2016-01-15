@@ -5,6 +5,9 @@ import psycopg2
 import inspect
 import numpy
 
+
+# FIXME: Add single page tests, and compare pages in order tests.
+
 def test_generator(settings):
     test_cases = unittest.TestSuite()
     cases = import_module(settings['cases'])
