@@ -14,6 +14,8 @@ def run(settings):
         test_output = unittest.TextTestRunner(f,verbosity=3)
         unittest.main(testRunner=test_output,argv=['inspection.py'])
 
+
+# FIXEME: Load a file that is a list of tests to skip
 def main(argv=None):
 
     parser = argparse.ArgumentParser()
