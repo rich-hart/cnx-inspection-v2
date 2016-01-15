@@ -7,7 +7,7 @@ import numpy
 
 
 # FIXME: Add single page tests, and compare pages in order tests.
-
+# add compare pages in reverse order
 def test_generator(settings):
     test_cases = unittest.TestSuite()
     cases = import_module(settings['cases'])
