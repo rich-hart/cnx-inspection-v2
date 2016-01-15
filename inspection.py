@@ -43,7 +43,7 @@ def main(argv=None):
     p.join()
 
 
-    print lcs_images(settings['results'])
+    print lcs_images(settings['results'],'ALL')
 
 if __name__ == "__main__":
     main() 
