@@ -41,7 +41,6 @@ class Core(unittest.TestCase):
         result = self.target(load,run)
         self.assertEqual(expect,result)
 
-    def test_page_removed_2(self):
         load = "python loaddb.py data/test/B.pdf data/test/A.pdf"
         subprocess.call(load.split())
         run = "python inspection.py"
@@ -56,6 +55,37 @@ class Core(unittest.TestCase):
                    (9,10), ]
         result = self.target(load,run)
         self.assertEqual(expect,result)
+
+    def test_several_pages_removed(self):
+        load = "python loaddb.py data/test/A.pdf data/test/C.pdf"
+        subprocess.call(load.split())
+        run = "python inspection.py"
+        expect = [ (1,1),
+                   (2,2),
+                   (4,3),
+                   (5,4),
+                   (7,5),
+                   (8,6),
+                   (9,7), 
+                          ]
+        result = self.target(load,run)
+        self.assertEqual(expect,result)
+
+        load = "python loaddb.py data/test/C.pdf data/test/A.pdf"
+        subprocess.call(load.split())
+        run = "python inspection.py"
+        expect = [ (1,1),
+                   (2,2),
+                   (3,4),
+                   (4,5),
+                   (5,7),
+                   (6,8),
+                   (7,9), 
+                          ]
+        result = self.target(load,run)
+        self.assertEqual(expect,result)
+
+
 
 
 if __name__ == '__main__':
