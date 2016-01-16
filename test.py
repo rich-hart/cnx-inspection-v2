@@ -3,16 +3,15 @@ import subprocess
 
 class Core(unittest.TestCase):
 
-    def target(self,command): 
-        output = subprocess.check_output(command.split())
+    def target(self,load,run): 
+        subprocess.call(load.split())
+        output = subprocess.check_output(run.split())
         result = eval(output)
         return result
 
     def test_identity(self):
-        command = "python loaddb.py data/test/A.pdf data/test/A.pdf"
-        subprocess.call(command.split())
-        command = "python inspection.py data/test/A.pdf data/test/A.pdf"
-        command = "python inspection.py"
+        load = "python loaddb.py data/test/A.pdf data/test/A.pdf"
+        run = "python inspection.py"
         expect = [ (1,1),
                    (2,2),
                    (3,3),
@@ -23,7 +22,39 @@ class Core(unittest.TestCase):
                    (8,8),
                    (9,9), 
                    (10,10), ]
-        result = self.target(command)
+        result = self.target(load,run)
+        self.assertEqual(expect,result)
+
+    def test_page_removed(self):
+        load = "python loaddb.py data/test/A.pdf data/test/B.pdf"
+        subprocess.call(load.split())
+        run = "python inspection.py"
+        expect = [ (1,1),
+                   (2,2),
+                   (4,3),
+                   (5,4),
+                   (6,5),
+                   (7,6),
+                   (8,7),
+                   (9,8), 
+                   (10,9), ]
+        result = self.target(load,run)
+        self.assertEqual(expect,result)
+
+    def test_page_removed_2(self):
+        load = "python loaddb.py data/test/B.pdf data/test/A.pdf"
+        subprocess.call(load.split())
+        run = "python inspection.py"
+        expect = [ (1,1),
+                   (2,2),
+                   (3,4),
+                   (4,5),
+                   (5,6),
+                   (6,7),
+                   (7,8),
+                   (8,9),
+                   (9,10), ]
+        result = self.target(load,run)
         self.assertEqual(expect,result)
 
 
