@@ -45,7 +45,7 @@ def main(argv=None):
                     with open(png_path,'r') as f:
                         img = f.read()
                         binary = psycopg2.Binary(img)
-                        cur.execute("INSERT INTO png_a (Page, Data) VALUES (%s, %s)", (str(i),binary) )
+                        cur.execute("INSERT INTO png_a (Page, Data) VALUES (%s, %s)", (str(i+FIRST_PAGE_OFFSET),binary) )
                     os.remove(png_path)
 
                 cur.execute("DROP TABLE IF EXISTS png_b")

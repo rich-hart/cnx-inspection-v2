@@ -129,7 +129,7 @@ def backtrack(length_matrix,comp_matrix,i,j):
     if i == 0 or j == 0:
         return []
     elif comp_matrix[i,j]:
-        return backtrack(length_matrix,comp_matrix,i-1,j-1)+[i]
+        return backtrack(length_matrix,comp_matrix,i-1,j-1)+[(i,j)]
     else:
         if length_matrix[i,j-1]>length_matrix[i-1,j]:
             return backtrack(length_matrix,comp_matrix,i,j-1)

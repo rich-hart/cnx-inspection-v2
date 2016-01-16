@@ -7,6 +7,13 @@ import unittest
 
 class DefaultTest(frameworks.PNGs):
     def equality(self):
+        if self.page_i<3 and self.page_j <4:
+            raise unittest.SkipTest("Don't run this test on the first pages")
+        if self.page_i>10 and self.page_j >10:
+            raise unittest.SkipTest("Don't run this test on the first pages")
+        equal = numpy.array_equal(self.image_i, self.image_j)
+        self.assertTrue(equal)
+
         equal = numpy.array_equal(self.image_i, self.image_j)
         self.assertTrue(equal)
 
