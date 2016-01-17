@@ -137,6 +137,30 @@ class Core(unittest.TestCase):
         result = self.target(load,run)
         self.assertEqual(expect,result)
 
+    def test_multiple_changes(self):
+
+        load = "python loaddb.py data/test/A.pdf data/test/F.pdf"
+        run = "python inspection.py"
+        expect = [ (1,1),
+                   (4,3),
+                   (7,6),
+                   (10,8),
+                           ]
+        result = self.target(load,run)
+        self.assertEqual(expect,result)
+
+        load = "python loaddb.py data/test/A.pdf data/test/F.pdf"
+        run = "python inspection.py --include MyTest2 --check any"
+        expect = [ (1,1),
+                   (2,2),
+                   (4,3),
+                   (5,4),
+                   (6,5),
+                   (7,6),
+                   (8,7),
+                   (10,8), ]
+        result = self.target(load,run)
+        self.assertEqual(expect,result)
+
 if __name__ == '__main__':
     unittest.main()
-

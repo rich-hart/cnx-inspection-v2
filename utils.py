@@ -20,6 +20,8 @@ def test_generator(settings):
             cur.execute("SELECT Page FROM png_b")
             pages_b = cur.fetchall() 
             pages_b = [ page[0] for page in pages_b]
+
+    settings['include'] = list(set(settings['include']) -set(settings['exclude']))
     for case_name in settings['include']:
         TestClass = cases.__getattribute__(case_name)
         setattr(TestClass,'_settings',settings)

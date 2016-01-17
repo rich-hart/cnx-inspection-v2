@@ -22,7 +22,7 @@ def main(argv=None):
 
     # FIXME: use nargs='+' for lists
     parser.add_argument('--include', action='append', default=['DefaultTest'])
-    parser.add_argument('--exclude', action='append', default=None)
+    parser.add_argument('--exclude', action='append', default=[])
     parser.add_argument('--output', type=str, default='output.log')
     parser.add_argument('--results', type=str, default='results.log')
     parser.add_argument('--database', type=str, default='png-testing')
