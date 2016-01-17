@@ -7,7 +7,7 @@ import unittest
 
 class DefaultTest(frameworks.PNGs):
     def equality(self):
-        equal = numpy.array_equal(self.image_i, self.image_j)
+        equal = numpy.array_equiv(self.image_i, self.image_j)
         self.assertTrue(equal)
 
 class MyTest1(frameworks.PNGs):
@@ -23,11 +23,6 @@ class MyTest1(frameworks.PNGs):
         measure = cv2.compareHist(hist_i, hist_j, cv.CV_COMP_CORREL) 
         self.assertGreater(measure,threshold)
 
-    def equality(self):
-        if self.page_i==1 or self.page_j ==1:
-            raise unittest.SkipTest("Don't run this test on the first pages")
-        equal = numpy.array_equal(self.image_i, self.image_j)
-        self.assertTrue(equal)
 
 
 class MyTest2(frameworks.PNGs):

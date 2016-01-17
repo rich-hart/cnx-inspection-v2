@@ -33,6 +33,7 @@ def main(argv=None):
 
     with make_temp_directory() as build_dir: 
         with psycopg2.connect(database=settings['database']) as con:
+            con.autocommit=True
             with con.cursor() as cur:
                 cur.execute("DROP TABLE IF EXISTS png_a")
                 cur.execute("CREATE TABLE png_a (Page INT PRIMARY KEY, Data BYTEA)")
@@ -46,6 +47,7 @@ def main(argv=None):
                         img = f.read()
                         binary = psycopg2.Binary(img)
                         cur.execute("INSERT INTO png_a (Page, Data) VALUES (%s, %s)", (str(i+FIRST_PAGE_OFFSET),binary) )
+                    con.commit()
                     os.remove(png_path)
 
                 cur.execute("DROP TABLE IF EXISTS png_b")
@@ -60,6 +62,7 @@ def main(argv=None):
                         img = f.read()
                         binary = psycopg2.Binary(img)
                         cur.execute("INSERT INTO png_b (Page, Data) VALUES (%s, %s)", (str(i+FIRST_PAGE_OFFSET),binary) )
+                    con.commit()
                     os.remove(png_path)
 
 if __name__ == "__main__":

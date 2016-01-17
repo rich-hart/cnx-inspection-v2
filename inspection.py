@@ -28,6 +28,7 @@ def main(argv=None):
     parser.add_argument('--database', type=str, default='png-testing')
     parser.add_argument('--user', type=str, default='qa')
     parser.add_argument('--cases', type=str, default='cases')
+    parser.add_argument('--check', type=str, choices=['any','all'],default='all')
     # FIXME: add any / all argument
     # FIXME: add single test and page numbers needed. 
     args = parser.parse_args(argv)
@@ -45,7 +46,7 @@ def main(argv=None):
     p.join()
 
 
-    print lcs_images(settings['results'],'ALL')
+    print lcs_images(settings['results'],settings['check'])
 
 if __name__ == "__main__":
     main() 

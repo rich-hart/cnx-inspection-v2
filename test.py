@@ -4,7 +4,8 @@ import subprocess
 class Core(unittest.TestCase):
 
     def target(self,load,run): 
-        subprocess.call(load.split())
+        p=subprocess.Popen(load.split())
+        p.wait()
         output = subprocess.check_output(run.split())
         result = eval(output)
         return result
@@ -27,7 +28,6 @@ class Core(unittest.TestCase):
 
     def test_page_removed(self):
         load = "python loaddb.py data/test/A.pdf data/test/B.pdf"
-        subprocess.call(load.split())
         run = "python inspection.py"
         expect = [ (1,1),
                    (2,2),
@@ -42,7 +42,6 @@ class Core(unittest.TestCase):
         self.assertEqual(expect,result)
 
         load = "python loaddb.py data/test/B.pdf data/test/A.pdf"
-        subprocess.call(load.split())
         run = "python inspection.py"
         expect = [ (1,1),
                    (2,2),
@@ -58,7 +57,6 @@ class Core(unittest.TestCase):
 
     def test_several_pages_removed(self):
         load = "python loaddb.py data/test/A.pdf data/test/C.pdf"
-        subprocess.call(load.split())
         run = "python inspection.py"
         expect = [ (1,1),
                    (2,2),
@@ -72,7 +70,6 @@ class Core(unittest.TestCase):
         self.assertEqual(expect,result)
 
         load = "python loaddb.py data/test/C.pdf data/test/A.pdf"
-        subprocess.call(load.split())
         run = "python inspection.py"
         expect = [ (1,1),
                    (2,2),
@@ -86,7 +83,31 @@ class Core(unittest.TestCase):
         self.assertEqual(expect,result)
 
 
+    def test_image_shift(self):
+        load = "python loaddb.py data/test/A.pdf data/test/D.pdf"
+        run = "python inspection.py"
+        expect = [ (1,1),
+                   (3,3),
+                   (9,9),
+                   (10,10), 
+                          ]
+        result = self.target(load,run)
+        self.assertEqual(expect,result)
 
+        load = "python loaddb.py data/test/A.pdf data/test/D.pdf"
+        run = "python inspection.py --include MyTest1 --check any"
+        expect = [ (1,1),
+                   (2,2),
+                   (3,3),
+                   (4,4),
+                   (5,5),
+                   (6,6),
+                   (7,7),
+                   (8,8),
+                   (9,9), 
+                   (10,10), ]
+        result = self.target(load,run)
+        self.assertEqual(expect,result)
 
 if __name__ == '__main__':
     unittest.main()
