@@ -18,7 +18,7 @@ ln /dev/null /dev/raw1394 # disable warning message
 
 ``python inspection.py -h``
 
-``python inspection.py data/test/A.pdf data/test/A.pdf``
+``python inspection.py data/test/A.pdf data/test/B.pdf``
 
 ``python inspection.py --cases example --include Example1 data/test/A.pdf data/test/F.pdf``
 
