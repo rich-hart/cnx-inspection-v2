@@ -1,8 +1,8 @@
-##### REQUIREMENTS
+##### Requirements
 
 Ubuntu >= 14.10 
 
-##### INSTALL
+##### Install
 
 Run as sudo
 
@@ -18,7 +18,7 @@ apt-get install libopencv-dev python-opencv
 ln /dev/null /dev/raw1394 # disable warning message
 ```
 
-##### EXAMPLE USAGE
+##### Example Usage
 
 ``python inspection.py -h``
 
