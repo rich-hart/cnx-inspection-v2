@@ -26,5 +26,13 @@ ln /dev/null /dev/raw1394 # disable warning message
 
 ``python inspection.py --cases example --include Example3 --exclude DefaultTest --check any data/test/A.pdf data/test/F.pdf``
 
+##### Algorithms
 
+http://docs.opencv.org/2.4/modules/imgproc/doc/histograms.html?highlight=comparehist#comparehist
+
+https://en.wikipedia.org/wiki/Longest_common_subsequence_problem
+
+##### Python Modules
+
+https://docs.python.org/2/library/unittest.html
 
