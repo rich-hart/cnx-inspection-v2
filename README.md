@@ -32,6 +32,8 @@ ln /dev/null /dev/raw1394 # disable warning message
 
 ##### Algorithms
 
+http://docs.scipy.org/doc/numpy-1.10.0/reference/generated/numpy.array_equiv.html#numpy.array_equiv
+
 http://docs.opencv.org/2.4/modules/imgproc/doc/histograms.html?highlight=comparehist#comparehist
 
 https://en.wikipedia.org/wiki/Longest_common_subsequence_problem
