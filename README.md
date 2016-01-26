@@ -36,6 +36,6 @@ https://en.wikipedia.org/wiki/Longest_common_subsequence_problem
 
 https://docs.python.org/2/library/unittest.html
 
-##### Code Tests
+##### Functionality Tests
 
 ``python -m unittest test``
