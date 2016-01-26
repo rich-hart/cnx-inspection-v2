@@ -25,10 +25,11 @@ def main(argv=None):
     parser.add_argument('--exclude', action='append', default=[])
     parser.add_argument('--output', type=str, default='output.log')
     parser.add_argument('--results', type=str, default='results.log')
-    parser.add_argument('--database', type=str, default='png-testing')
-    parser.add_argument('--user', type=str, default='qa')
     parser.add_argument('--cases', type=str, default='cases')
     parser.add_argument('--check', type=str, choices=['any','all'],default='all')
+    parser.add_argument('pdf_a', type=str)
+    parser.add_argument('pdf_b', type=str) 
+
     # FIXME: add any / all argument
     # FIXME: add single test and page numbers needed. 
     args = parser.parse_args(argv)

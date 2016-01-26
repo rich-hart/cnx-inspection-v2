@@ -3,16 +3,13 @@ import subprocess
 
 class Core(unittest.TestCase):
 
-    def target(self,load,run): 
-        p=subprocess.Popen(load.split())
-        p.wait()
+    def target(self,run): 
         output = subprocess.check_output(run.split())
         result = eval(output)
         return result
 
     def test_identity(self):
-        load = "python loaddb.py data/test/A.pdf data/test/A.pdf"
-        run = "python inspection.py"
+        run = "python inspection.py data/test/A.pdf data/test/A.pdf"
         expect = [ (1,1),
                    (2,2),
                    (3,3),
@@ -23,12 +20,11 @@ class Core(unittest.TestCase):
                    (8,8),
                    (9,9), 
                    (10,10), ]
-        result = self.target(load,run)
+        result = self.target(run)
         self.assertEqual(expect,result)
 
     def test_page_removed(self):
-        load = "python loaddb.py data/test/A.pdf data/test/B.pdf"
-        run = "python inspection.py"
+        run = "python inspection.py data/test/A.pdf data/test/B.pdf"
         expect = [ (1,1),
                    (2,2),
                    (4,3),
@@ -38,11 +34,10 @@ class Core(unittest.TestCase):
                    (8,7),
                    (9,8), 
                    (10,9), ]
-        result = self.target(load,run)
+        result = self.target(run)
         self.assertEqual(expect,result)
 
-        load = "python loaddb.py data/test/B.pdf data/test/A.pdf"
-        run = "python inspection.py"
+        run = "python inspection.py data/test/B.pdf data/test/A.pdf"
         expect = [ (1,1),
                    (2,2),
                    (3,4),
@@ -52,12 +47,11 @@ class Core(unittest.TestCase):
                    (7,8),
                    (8,9),
                    (9,10), ]
-        result = self.target(load,run)
+        result = self.target(run)
         self.assertEqual(expect,result)
 
     def test_several_pages_removed(self):
-        load = "python loaddb.py data/test/A.pdf data/test/C.pdf"
-        run = "python inspection.py"
+        run = "python inspection.py data/test/A.pdf data/test/C.pdf"
         expect = [ (1,1),
                    (2,2),
                    (4,3),
@@ -66,11 +60,10 @@ class Core(unittest.TestCase):
                    (8,6),
                    (9,7), 
                           ]
-        result = self.target(load,run)
+        result = self.target(run)
         self.assertEqual(expect,result)
 
-        load = "python loaddb.py data/test/C.pdf data/test/A.pdf"
-        run = "python inspection.py"
+        run = "python inspection.py data/test/C.pdf data/test/A.pdf"
         expect = [ (1,1),
                    (2,2),
                    (3,4),
@@ -79,23 +72,21 @@ class Core(unittest.TestCase):
                    (6,8),
                    (7,9), 
                           ]
-        result = self.target(load,run)
+        result = self.target(run)
         self.assertEqual(expect,result)
 
 
     def test_image_shift(self):
-        load = "python loaddb.py data/test/A.pdf data/test/D.pdf"
-        run = "python inspection.py"
+        run = "python inspection.py data/test/A.pdf data/test/D.pdf"
         expect = [ (1,1),
                    (3,3),
                    (9,9),
                    (10,10), 
                           ]
-        result = self.target(load,run)
+        result = self.target(run)
         self.assertEqual(expect,result)
 
-        load = "python loaddb.py data/test/A.pdf data/test/D.pdf"
-        run = "python inspection.py --include MyTest1 --check any"
+        run = "python inspection.py --include MyTest1 --check any data/test/A.pdf data/test/D.pdf"
         expect = [ (1,1),
                    (2,2),
                    (3,3),
@@ -106,12 +97,11 @@ class Core(unittest.TestCase):
                    (8,8),
                    (9,9), 
                    (10,10), ]
-        result = self.target(load,run)
+        result = self.target(run)
         self.assertEqual(expect,result)
 
     def test_color_change(self):
-        load = "python loaddb.py data/test/A.pdf data/test/E.pdf"
-        run = "python inspection.py"
+        run = "python inspection.py data/test/A.pdf data/test/E.pdf"
         expect = [ (1,1),
                    (3,3),
                    (4,4),
@@ -119,11 +109,10 @@ class Core(unittest.TestCase):
                    (7,7),
                    (9,9), 
                    (10,10), ]
-        result = self.target(load,run)
+        result = self.target(run)
         self.assertEqual(expect,result)
 
-        load = "python loaddb.py data/test/A.pdf data/test/E.pdf"
-        run = "python inspection.py --include MyTest1 --check any"
+        run = "python inspection.py --include MyTest1 --check any data/test/A.pdf data/test/E.pdf"
         expect = [ (1,1),
                    (2,2),
                    (3,3),
@@ -134,23 +123,21 @@ class Core(unittest.TestCase):
                    (8,8),
                    (9,9), 
                    (10,10), ]
-        result = self.target(load,run)
+        result = self.target(run)
         self.assertEqual(expect,result)
 
     def test_multiple_changes(self):
 
-        load = "python loaddb.py data/test/A.pdf data/test/F.pdf"
-        run = "python inspection.py"
+        run = "python inspection.py data/test/A.pdf data/test/F.pdf"
         expect = [ (1,1),
                    (4,3),
                    (7,6),
                    (10,8),
                            ]
-        result = self.target(load,run)
+        result = self.target(run)
         self.assertEqual(expect,result)
 
-        load = "python loaddb.py data/test/A.pdf data/test/F.pdf"
-        run = "python inspection.py --include MyTest2 --check any"
+        run = "python inspection.py --include MyTest2 --check any data/test/A.pdf data/test/F.pdf"
         expect = [ (1,1),
                    (2,2),
                    (4,3),
@@ -159,7 +146,7 @@ class Core(unittest.TestCase):
                    (7,6),
                    (8,7),
                    (10,8), ]
-        result = self.target(load,run)
+        result = self.target(run)
         self.assertEqual(expect,result)
 
 if __name__ == '__main__':

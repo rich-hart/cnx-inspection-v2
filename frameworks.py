@@ -6,8 +6,11 @@ import cv
 import numpy
 import sys
 import exceptions
-
-# NOTE: consider loading all images into memory depending on system resources
+import PythonMagick
+import tempfile
+import contextlib
+import os
+import utils
 
 class PNGs(unittest.TestCase):
     def __init__(self, methodName, page_i=1, page_j=1):
@@ -21,22 +24,22 @@ class PNGs(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
-        cls._connection = psycopg2.connect(database=cls._settings['database'])
         cls._casename = cls.__name__
         cls._logger = logging.getLogger(cls._casename)
+
+        
+
     def setUp(self):
         if self.page_i==0 or self.page_j ==0:
             raise unittest.SkipTest("zero pages should be null")
 
         self.class_vars = None
         self.class_vars = self.__dict__
-        with self._connection.cursor() as cur:
-            cur.execute("SELECT Data FROM png_a WHERE Page={0}".format(self.page_i))
-            data = numpy.asarray(cur.fetchone()[0])
-            self.image_i = cv2.imdecode(data,cv.CV_LOAD_IMAGE_COLOR)
-            cur.execute("SELECT Data FROM png_b WHERE Page={0}".format(self.page_j))
-            data = numpy.asarray(cur.fetchone()[0])
-            self.image_j = cv2.imdecode(data,cv.CV_LOAD_IMAGE_COLOR)
+        self.image_i=utils.load_pdf_page(self._settings['pdf_a'],self.page_i-1)
+        self.image_j=utils.load_pdf_page(self._settings['pdf_b'],self.page_j-1)
+
+
+
 
 # FIXME: Have way for tearDown method, obtain any save value from test
     def tearDown(self):

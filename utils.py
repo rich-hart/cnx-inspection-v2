@@ -4,6 +4,11 @@ from importlib import import_module
 import psycopg2
 import inspect
 import numpy
+import pyPdf
+import PythonMagick
+import cv2
+import cv
+import numpy
 
 
 # FIXME: Add single page tests, and compare pages in order tests.
@@ -12,15 +17,10 @@ def test_generator(settings):
     test_cases = unittest.TestSuite()
     cases = import_module(settings['cases'])
 
-    with psycopg2.connect(database=settings['database']) as con:
-        with con.cursor() as cur:
-            cur.execute("SELECT Page FROM png_a")
-            pages_a = cur.fetchall()
-            pages_a = [ page[0] for page in pages_a]
-            cur.execute("SELECT Page FROM png_b")
-            pages_b = cur.fetchall() 
-            pages_b = [ page[0] for page in pages_b]
-
+    pdf_a_im = pyPdf.PdfFileReader(file(settings['pdf_a'], "rb"))
+    total_a_pages =  pdf_a_im.getNumPages() 
+    pdf_b_im = pyPdf.PdfFileReader(file(settings['pdf_b'], "rb"))
+    total_b_pages =  pdf_b_im.getNumPages() 
     settings['include'] = list(set(settings['include']) -set(settings['exclude']))
     for case_name in settings['include']:
         TestClass = cases.__getattribute__(case_name)
@@ -32,8 +32,8 @@ def test_generator(settings):
         test_method_list = list(set(method_list)-set(super_method_list))
         test_name_list = [ method[0] for method in test_method_list if method[0]!='tearDownClass' and method[0]!='setUpClass']
         for test_name in test_name_list:
-            for pi in pages_a:
-                for pj in pages_b:
+            for pi in range(1,total_a_pages+1):
+                for pj in range(1,total_b_pages+1):
                     test_cases.addTest(TestClass(test_name, pi, pj))
     def load_tests(loader, tests, pattern):
     # FIXME: declare me as a decorator
@@ -161,3 +161,18 @@ def lcs_images(results_file_path,require='ANY'):
     (M,N) = length_matrix.shape
     lcs = backtrack(length_matrix,comp_matrix,M-1,N-1)
     return lcs
+
+images_dict = {}
+
+def load_pdf_page(filepath,page_number):
+    pdf_image_key = filepath + "[{0}]".format(page_number)
+    if images_dict.has_key(pdf_image_key):
+        image = images_dict[pdf_image_key]
+        return image
+    im = PythonMagick.Image(pdf_image_key)
+    blob = PythonMagick.Blob()
+    im.write(blob,"png")
+    data = numpy.frombuffer( blob.data, dtype='uint8')
+    image = cv2.imdecode(data,cv.CV_LOAD_IMAGE_COLOR)
+    images_dict[pdf_image_key]=image
+    return image
