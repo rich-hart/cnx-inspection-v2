@@ -1,3 +1,7 @@
+##### Requirements 
+
+Ubuntu >= 14.10 
+
 ##### INSTALL
 
 Run as sudo
