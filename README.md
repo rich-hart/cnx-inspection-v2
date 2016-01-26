@@ -1,21 +1,30 @@
-sudo apt-get install python-pythonmagick
+##### INSTALL
+
+Run as sudo
+
+```
+apt-get install python-pythonmagick
 
 pip install pyPdf
 
-sudo apt-get install libpq-dev python-dev
+apt-get install libpq-dev python-dev
 
-sudo apt-get install postgresql-9.4
+apt-get install libopencv-dev python-opencv
 
-sudo apt-get build-dep python-psycopg2
+ln /dev/null /dev/raw1394 # disable warning message
+```
 
-sudo apt-get install libopencv-dev python-opencv
+##### USAGE
 
-sudo ln /dev/null /dev/raw1394 # disable warning message
-USER NOTES:
+``python inspection.py -h``
 
-This implementation of the lsc algorithm is not optimized! To avoid having tests run for hours be smart about which tests are nessiary, which to skip, and which tests to prioritize.!
+``python inspection.py data/test/A.pdf data/test/A.pdf``
 
-Iterate slowly on tests.  Reduce the problem set!
+``python inspection.py --cases example --include Example1 data/test/A.pdf data/test/F.pdf``
+
+``python inspection.py --cases example --include Example2 --exclude DefaultTest data/test/A.pdf data/test/F.pdf``
+
+``python inspection.py --cases example --include Example3 --exclude DefaultTest --check any data/test/A.pdf data/test/F.pdf``
 
 
 
