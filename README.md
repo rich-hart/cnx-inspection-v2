@@ -1,4 +1,4 @@
-##### Requirements 
+##### REQUIREMENTS
 
 Ubuntu >= 14.10 
 
