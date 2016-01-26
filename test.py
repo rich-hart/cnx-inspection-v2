@@ -1,6 +1,7 @@
 import unittest
 import subprocess
 
+
 class Core(unittest.TestCase):
 
     def target(self,run): 
@@ -127,8 +128,6 @@ class Core(unittest.TestCase):
         self.assertEqual(expect,result)
 
     def test_multiple_changes(self):
-        # FIXME: Test most likely fails because more example metrics
-        # are needed.
         run = "python inspection.py data/test/A.pdf data/test/F.pdf"
         expect = [ (1,1),
                    (4,3),
@@ -138,6 +137,7 @@ class Core(unittest.TestCase):
         result = self.target(run)
         self.assertEqual(expect,result)
 
+        # FIXME
         run = "python inspection.py --cases example --include Example2 --check any data/test/A.pdf data/test/F.pdf"
         expect = [ (1,1),
                    (2,2),
