@@ -127,7 +127,8 @@ class Core(unittest.TestCase):
         self.assertEqual(expect,result)
 
     def test_multiple_changes(self):
-
+        # FIXME: Test most likely fails because more example metrics
+        # are needed.
         run = "python inspection.py data/test/A.pdf data/test/F.pdf"
         expect = [ (1,1),
                    (4,3),
