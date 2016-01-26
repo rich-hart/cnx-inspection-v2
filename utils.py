@@ -9,11 +9,38 @@ import PythonMagick
 import cv2
 import cv
 import numpy
+import functools
 
 
-# FIXME: Add single page tests, and compare pages in order tests.
-# add compare pages in reverse order
-def test_generator(settings):
+images_dict = {}
+
+def load_pdf_page(filepath,page_number):
+    pdf_image_key = filepath + "[{0}]".format(page_number)
+    if images_dict.has_key(pdf_image_key):
+        image = images_dict[pdf_image_key]
+        return image
+    im = PythonMagick.Image(pdf_image_key)
+    blob = PythonMagick.Blob()
+    im.write(blob,"png")
+    data = numpy.frombuffer( blob.data, dtype='uint8')
+    image = cv2.imdecode(data,cv.CV_LOAD_IMAGE_COLOR)
+    images_dict[pdf_image_key]=image
+    return image
+
+def custom_protocal(function):
+    """Overwrite the unittest library's default protocal for creating tests"""
+    @functools.wraps(function)
+    def wrapper(*args, **kwargs):
+        def load_tests(loader, tests, pattern):
+                return function(*args, **kwargs)
+        return load_tests
+    return wrapper
+
+
+
+@custom_protocal
+def generate_tests(settings):
+    """create parameterized tests"""
     test_cases = unittest.TestSuite()
     cases = import_module(settings['cases'])
 
@@ -35,17 +62,8 @@ def test_generator(settings):
             for pi in range(1,total_a_pages+1):
                 for pj in range(1,total_b_pages+1):
                     test_cases.addTest(TestClass(test_name, pi, pj))
-    def load_tests(loader, tests, pattern):
-    # FIXME: declare me as a decorator
-        return test_cases
 
-    return load_tests
-
-
-# FIXME: These utility functions will need to be corrected base on the nature of 
-# translating the lcs problem from strings to images
-
-
+    return test_cases
 
 def load_result_log(filepath):
     results = []
@@ -139,20 +157,6 @@ def backtrack(length_matrix,comp_matrix,i,j):
             return backtrack(length_matrix,comp_matrix,i-1,j)
 
 
-def printDiff(length_matrix,comp_matrix,i,j):
-    if i > 0 and j > 0 and comp_matrix[i,j]:
-        printDiff(length_matrix,comp_matrix,i-1,j-1)
-        print("  " + str(i))
-    elif j > 0 and (i == 0 or length_matrix[i,j-1] >= length_matrix[i-1,j]):
-        printDiff(length_matrix,comp_matrix,i, j-1)
-        print("+ " + str(j))
-    elif i > 0 and (j == 0 or length_matrix[i,j-1] < length_matrix[i-1,j]):
-        printDiff(length_matrix,comp_matrix, i-1,j)
-        print("- " + str(i))
-    else:
-        print("")
-
-
 def lcs_images(results_file_path,require='ANY'):
     results_list=load_result_log(results_file_path)
     info_matrix = generate_info_matrix(results_list)
@@ -162,17 +166,3 @@ def lcs_images(results_file_path,require='ANY'):
     lcs = backtrack(length_matrix,comp_matrix,M-1,N-1)
     return lcs
 
-images_dict = {}
-
-def load_pdf_page(filepath,page_number):
-    pdf_image_key = filepath + "[{0}]".format(page_number)
-    if images_dict.has_key(pdf_image_key):
-        image = images_dict[pdf_image_key]
-        return image
-    im = PythonMagick.Image(pdf_image_key)
-    blob = PythonMagick.Blob()
-    im.write(blob,"png")
-    data = numpy.frombuffer( blob.data, dtype='uint8')
-    image = cv2.imdecode(data,cv.CV_LOAD_IMAGE_COLOR)
-    images_dict[pdf_image_key]=image
-    return image

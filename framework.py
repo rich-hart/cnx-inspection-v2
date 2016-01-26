@@ -12,12 +12,12 @@ import contextlib
 import os
 import utils
 
-class PNGs(unittest.TestCase):
+class CVTests(unittest.TestCase):
     def __init__(self, methodName, page_i=1, page_j=1):
         testName = "{0}(page_i={1},page_j={2})".format(methodName,page_i,page_j)
         method = getattr(self,methodName) 
         setattr(self, testName, method)
-        super(PNGs, self).__init__(testName)
+        super(CVTests, self).__init__(testName)
         self.page_i = page_i
         self.page_j = page_j
         self.methodName = methodName
@@ -25,23 +25,16 @@ class PNGs(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         cls._casename = cls.__name__
-        cls._logger = logging.getLogger(cls._casename)
-
-        
+        cls._logger = logging.getLogger(cls._casename)        
 
     def setUp(self):
         if self.page_i==0 or self.page_j ==0:
             raise unittest.SkipTest("zero pages should be null")
-
         self.class_vars = None
         self.class_vars = self.__dict__
         self.image_i=utils.load_pdf_page(self._settings['pdf_a'],self.page_i-1)
         self.image_j=utils.load_pdf_page(self._settings['pdf_b'],self.page_j-1)
 
-
-
-
-# FIXME: Have way for tearDown method, obtain any save value from test
     def tearDown(self):
         sys_info = sys.exc_info()
         result = None
