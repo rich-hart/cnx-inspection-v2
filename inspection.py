@@ -11,8 +11,8 @@ def run(settings):
     global load_tests
     load_tests = generate_tests(settings)
     with open(settings['output'],'w+') as f:
-        test_output = unittest.TextTestRunner(f,verbosity=3)
-        unittest.main(testRunner=test_output,argv=['inspection.py'])
+        output = unittest.TextTestRunner(f,verbosity=3)
+        unittest.main(testRunner=output,argv=['inspection.py'])
 
 def main(argv=None):
     parser = argparse.ArgumentParser()

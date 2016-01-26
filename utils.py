@@ -98,7 +98,7 @@ def generate_info_matrix(info_list):
 
     return info_matrix
 
-def generate_comp_matrix(info_matrix,operation,skipped_results=True):
+def generate_comp_matrix(info_matrix,operation,skip=True):
 
     (A,B,C) = info_matrix.shape
 
@@ -117,7 +117,7 @@ def generate_comp_matrix(info_matrix,operation,skipped_results=True):
                 elif info == 'e':
                     value = False
                 elif info == 's':
-                    value = skipped_results
+                    value = skip
                 else:
                     value = False
                 value_matrix[a,b,c]=value
@@ -133,7 +133,7 @@ def generate_comp_matrix(info_matrix,operation,skipped_results=True):
 
     return comp_matrix
 
-def LCSLength(comp_matrix):
+def lcs_length(comp_matrix):
     (M,N) = comp_matrix.shape
     length_matrix = numpy.zeros((M,N), dtype=int)
 
@@ -158,10 +158,10 @@ def backtrack(length_matrix,comp_matrix,i,j):
 
 
 def lcs_images(results_file_path,require='ANY'):
-    results_list=load_result_log(results_file_path)
+    results_list= load_result_log(results_file_path)
     info_matrix = generate_info_matrix(results_list)
     comp_matrix = generate_comp_matrix(info_matrix,require)
-    length_matrix = LCSLength(comp_matrix)
+    length_matrix = lcs_length(comp_matrix)
     (M,N) = length_matrix.shape
     lcs = backtrack(length_matrix,comp_matrix,M-1,N-1)
     return lcs

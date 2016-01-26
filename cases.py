@@ -4,12 +4,12 @@ import cv
 import numpy
 import unittest
 
-class DefaultTest(framework.CVTests):
+class DefaultTest(framework.PDFCV):
     def equality(self):
         equal = numpy.array_equiv(self.image_i, self.image_j)
         self.assertTrue(equal)
 
-class MyTest1(framework.CVTests):
+class Example1(framework.PDFCV):
     def gray_histogram_cmp_corr(self):
         threshold = .9
 
@@ -23,7 +23,7 @@ class MyTest1(framework.CVTests):
         self.assertGreater(measure,threshold)
 
 
-class MyTest2(framework.CVTests):
+class Example2(framework.PDFCV):
     def gray_histogram_cmp_bhatta(self):
         threshold = .07
 

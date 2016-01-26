@@ -7,17 +7,15 @@ import numpy
 import sys
 import exceptions
 import PythonMagick
-import tempfile
 import contextlib
-import os
 import utils
 
-class CVTests(unittest.TestCase):
+class PDFCV(unittest.TestCase):
     def __init__(self, methodName, page_i=1, page_j=1):
         testName = "{0}(page_i={1},page_j={2})".format(methodName,page_i,page_j)
         method = getattr(self,methodName) 
         setattr(self, testName, method)
-        super(CVTests, self).__init__(testName)
+        super(PDFCV, self).__init__(testName)
         self.page_i = page_i
         self.page_j = page_j
         self.methodName = methodName
@@ -30,8 +28,6 @@ class CVTests(unittest.TestCase):
     def setUp(self):
         if self.page_i==0 or self.page_j ==0:
             raise unittest.SkipTest("zero pages should be null")
-        self.class_vars = None
-        self.class_vars = self.__dict__
         self.image_i=utils.load_pdf_page(self._settings['pdf_a'],self.page_i-1)
         self.image_j=utils.load_pdf_page(self._settings['pdf_b'],self.page_j-1)
 

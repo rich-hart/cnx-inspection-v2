@@ -86,7 +86,7 @@ class Core(unittest.TestCase):
         result = self.target(run)
         self.assertEqual(expect,result)
 
-        run = "python inspection.py --include MyTest1 --check any data/test/A.pdf data/test/D.pdf"
+        run = "python inspection.py --include Example1 --check any data/test/A.pdf data/test/D.pdf"
         expect = [ (1,1),
                    (2,2),
                    (3,3),
@@ -112,7 +112,7 @@ class Core(unittest.TestCase):
         result = self.target(run)
         self.assertEqual(expect,result)
 
-        run = "python inspection.py --include MyTest1 --check any data/test/A.pdf data/test/E.pdf"
+        run = "python inspection.py --include Example1 --check any data/test/A.pdf data/test/E.pdf"
         expect = [ (1,1),
                    (2,2),
                    (3,3),
@@ -137,7 +137,7 @@ class Core(unittest.TestCase):
         result = self.target(run)
         self.assertEqual(expect,result)
 
-        run = "python inspection.py --include MyTest2 --check any data/test/A.pdf data/test/F.pdf"
+        run = "python inspection.py --include Example2 --check any data/test/A.pdf data/test/F.pdf"
         expect = [ (1,1),
                    (2,2),
                    (4,3),
