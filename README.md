@@ -18,7 +18,7 @@ apt-get install libopencv-dev python-opencv
 ln /dev/null /dev/raw1394 # disable warning message
 ```
 
-##### USAGE
+##### EXAMPLE USAGE
 
 ``python inspection.py -h``
 
