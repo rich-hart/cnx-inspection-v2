@@ -15,7 +15,7 @@ def run(settings):
         unittest.main(testRunner=output,argv=['inspection.py'])
 
 def main(argv=None):
-    parser = argparse.ArgumentParser()
+    parser = argparse.ArgumentParser(description='Return a list of related pages between two pdfs.')
     parser.add_argument('--include', action='append', default=['DefaultTest'], help="Include additional test classes (default=[DefaultTest])")
     parser.add_argument('--exclude', action='append', default=[], help="Exclude test classes.")
     parser.add_argument('--output', type=str, default='output.log', help="Test execution output file (default=output.log).")
