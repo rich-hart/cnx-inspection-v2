@@ -48,6 +48,6 @@ https://docs.python.org/2/library/unittest.html
 
 ##### Debugging
 
-Use the ``output.log`` file to see STDOUT of the pdf tests execution.  
+Use the ``output.log`` file to see STDOUT of the pdf test execution.  
 
 Warning: The python debugger will only be useful in the main function of the inspection.py file. The rest of this program is excuted as a different process, with STDOUT being written to file. Meaning there will be no way to directly interact with the debugger.  
